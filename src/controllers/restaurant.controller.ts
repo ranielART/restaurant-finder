@@ -11,7 +11,7 @@ const getRestaurants = async (req: Request, res: Response) => {
         .status(400)
         .json({ error: "A restaurant search query is required." });
     }
-    
+
     // const convertedMessage = await llmConversion(message);
 
     const resJson: RestaurantJSONCommandInterface = {
@@ -25,10 +25,12 @@ const getRestaurants = async (req: Request, res: Response) => {
     };
 
     const restaurants = await findRestaurants(resJson);
-    
+
     return res.status(200).json({ restaurants });
   } catch (error) {
-    return res.status(500).json({ error: "Internal Server Error", details: error } );
+    return res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error });
   }
 };
 

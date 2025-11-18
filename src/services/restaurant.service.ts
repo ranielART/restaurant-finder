@@ -7,11 +7,11 @@ export const findRestaurants = async (
 ) => {
   const key = process.env.FOURSQUARE_API_KEY;
   if (!key) {
-    return Promise.reject("FSQ Developers API key is missing");
+    throw new Error("FSQ Developers API key is missing");
   }
-
+  
   fsqDevelopersPlaces.auth(key);
-
+  
   try {
     const { parameters } = restaurantCommand;
 
@@ -22,7 +22,7 @@ export const findRestaurants = async (
 
     console.log("Foursquare response:", data);
 
-    return data; // return results so callers can use them
+    return data; 
   } catch (err) {
     console.error("Foursquare error:", err);
     throw err;
