@@ -1,36 +1,51 @@
 import { Request, Response } from "express";
 import { llmConversion } from "../services/llmConversion.service";
 import { findRestaurants } from "../services/restaurant.service";
-import { RestaurantJSONCommandInterface } from "../interfaces/restaurant.interface";
+// import { RestaurantJSONCommandInterface } from "../interfaces/restaurant.interface";
+import {
+  HTTPSuccessResponse,
+  HTTPErrorResponse,
+} from "../utils/responseHandler";
+import { InternalServerError, ValidationError } from "../utils/customErrors";
+
 const getRestaurants = async (req: Request, res: Response) => {
   try {
     const { message } = req.query;
 
     if (!message || typeof message !== "string") {
-      return res
-        .status(400)
-        .json({ error: "A restaurant search query is required." });
+      throw new ValidationError(
+        "A restaurant search query is required and must be a non-empty string."
+      );
     }
 
-    // const convertedMessage = await llmConversion(message);
+    const convertedMessage = await llmConversion(message);
 
-    const resJson: RestaurantJSONCommandInterface = {
-      action: "restaurant_search",
-      parameters: {
-        query: "sushi",
-        near: "downtown Los Angeles",
-        price: 1,
-        open_now: true,
-      },
-    };
+    const restaurants = await findRestaurants(convertedMessage);
 
-    const restaurants = await findRestaurants(resJson);
+    if (restaurants.length === 0) {
+      return HTTPSuccessResponse(
+        res,
+        200,
+        "No restaurants match your search. Try changing your criteria.",
+      );
+    }
 
-    return res.status(200).json({ restaurants });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Internal Server Error", details: error });
+    return HTTPSuccessResponse(res, 200, "Restaurants found successfully", {
+      restaurants,
+    });
+  } catch (error: unknown) {
+    if (error instanceof ValidationError) {
+      return HTTPErrorResponse(res, 422, error.message);
+    }
+    if (error instanceof InternalServerError) {
+      return HTTPErrorResponse(res, 500, error.message);
+    }
+
+    if (error instanceof Error) {
+      return HTTPErrorResponse(res, 500, error.message);
+    }
+
+    return HTTPErrorResponse(res, 500, "Internal server error") as Response;
   }
 };
 
