@@ -11,6 +11,7 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
+  "https://restaurant-finder-nine.vercel.app/"
 ];
 
 app.use(
