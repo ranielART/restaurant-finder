@@ -1,36 +1,26 @@
 import { Request, Response, NextFunction } from "express";
-import { HTTPErrorResponse } from "../utils/responseHandler";
-
+import { CustomError } from "../interfaces/error.interface";
 export const codeCheck = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { code } = req.query;
+  const { code } = req.query;
 
-    if (!code || typeof code !== "string") {
-      return HTTPErrorResponse(
-        res,
-        400,
-        "Access code is required."
-      );
-    }
-    
-    const envCode = process.env.ACCESS_CODE;
-
-    if (!envCode) {
-      console.error("[ERROR] ACCESS_CODE is not set in environment variables.");
-      return HTTPErrorResponse(res, 500, "Server configuration error.");
-    }
-
-    if (code !== envCode) {
-      console.warn("[WARN] Unauthorized access attempt with code:", code);
-      return HTTPErrorResponse(
-        res,
-        401,
-        "Unauthorized. Please enter a valid access code."
-      );
-    }
-    return next();
-  } catch (error) {
-    console.error("[ERROR] Code check error:", error);
-    HTTPErrorResponse(res, 500, "Failed to verify access code.");
+  if (!code || typeof code !== "string") {
+    const error = new Error("Access code is required.") as CustomError;
+    error.statusCode = 400;
+    return next(error);
   }
+
+  const envCode = process.env.ACCESS_CODE;
+  if (!envCode) {
+    const error = new Error("Server configuration error.") as CustomError;
+    error.statusCode = 500;
+    return next(error);
+  }
+
+  if (code !== envCode) {
+    const error = new Error("Unauthorized. Please enter a valid access code.") as CustomError;
+    error.statusCode = 401;
+    return next(error);
+  }
+
+  next();
 };
