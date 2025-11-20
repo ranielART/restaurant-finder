@@ -41,6 +41,9 @@ export const findRestaurants = async (
 
   const { parameters } = restaurantCommand;
 
+  console.log("Search Parameters: ", parameters);
+  
+
   if (!parameters || !parameters.query) {
     throw new ValidationError("Invalid restaurant search parameters");
   }
