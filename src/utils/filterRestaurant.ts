@@ -47,7 +47,7 @@ export const mapPlaceToRestaurant = (
   name: place.name || "N/A",
   address: place.location?.formatted_address || "N/A",
   cuisine: place.categories?.map(cat => cat.short_name) || [],
-  rating: "Needs a Foursquare Places API Premium subscription to access. I can't purchase the subscription because they don't accept Debit cards.",
-  price_level: "Needs a Foursquare Places API Premium subscription to access.",
-  operating_hours: "Needs a Foursquare Places API Premium subscription to access.",
+  rating: "N/A",
+  price_level: "N/A",
+  operating_hours: "N/A",
 });
