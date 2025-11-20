@@ -6,7 +6,27 @@ import { getOnlyRequest, errorHandler, notFoundHandler } from "./middlewares/err
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+];
+
+app.use(
+  cors({
+    origin: (origin: string | undefined, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.error(`Blocked by CORS: ${origin}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET'],
+    
+  })
+);
 
 app.use("/api/execute", restaurantRoutes);
 
