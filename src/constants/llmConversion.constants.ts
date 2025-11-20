@@ -18,7 +18,7 @@ Schema:
   "status": "success" | "fail"
 }
 
-- query: only main cuisine; strip trailing adjectives or modifiers (e.g., "-style", "-type")
+- query: only main cuisine; strip or trailing adjectives or modifiers (e.g., "-style", "-type", -"-friendly", etc. that might potentially confuse the LLM)
 - near: location (REQUIRED)
 - min_price / max_price: 1=cheapest, 4=most expensive; omit if not mentioned
 - rating.rating_value: rating filter value
