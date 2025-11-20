@@ -28,7 +28,9 @@ export const findRestaurants = async (
 
   const key = process.env.FOURSQUARE_API_KEY;
   if (!key) {
-    console.error("[ERROR] FOURSQUARE_API_KEY is not set in environment variables.");
+    console.error(
+      "[ERROR] FOURSQUARE_API_KEY is not set in environment variables."
+    );
     throw new Error("FSQ Developers API key is missing");
   }
 
@@ -40,22 +42,25 @@ export const findRestaurants = async (
     throw new ValidationError("Invalid restaurant search parameters");
   }
 
-  console.log("Restaurant Search parameters:", parameters);
+  console.log("Restaurant Search parameters:", JSON.stringify(parameters, null, 2));
 
   let data;
   try {
     const response = await fsqDevelopersPlaces.placeSearch({
       ...parameters,
       "X-Places-Api-Version": "2025-06-17",
+      fields: "name,location,categories",
     });
     data = response.data;
   } catch (err) {
     const errMessage = (err as FoursquareError).data?.message;
     console.error("[ERROR] Error fetching place search:", errMessage);
-    throw new Error("Failed to fetch places from Foursquare. Please try again later.");
+    throw new Error(
+      "Failed to fetch places from Foursquare. Please try again later."
+    );
   }
 
-  console.log("Foursquare response:", data);
+  console.log("Foursquare response:", JSON.stringify(data, null, 2));
 
   if (!data) {
     console.error("[ERROR] Empty response data from Foursquare API");

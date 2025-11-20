@@ -27,47 +27,37 @@ export interface RestaurantDetailsInterface {
     operating_hours: string;
 }
 
+// export interface FoursquarePlaceSchemaInterface {
+//   fsq_place_id?: string;
+//   categories?: Array<{
+//     fsq_category_id: string;
+//     name: string;
+//     short_name: string;
+//     plural_name: string;
+//     icon?: {
+//       prefix: string;
+//       suffix: string;
+//     };
+//   }>;
+  
+//   location?: {
+//     address?: string;
+//     locality?: string;
+//     region?: string;
+//     postcode?: string;
+//     country?: string;
+//     formatted_address?: string;
+//   };
+//   name?: string;
+  
+// }
 
 export interface FoursquarePlaceSchemaInterface {
-  fsq_place_id?: string;
-  latitude?: number | { [x: string]: unknown };  
-  longitude?: number | { [x: string]: unknown }; 
-  categories?: Array<{
-    fsq_category_id: string;
-    name: string;
-    short_name: string;
-    plural_name: string;
-    icon?: {
-      prefix: string;
-      suffix: string;
-    };
-  }>;
-  chains?: Array<{
-    fsq_chain_id: string;
-  }>;
-  date_created?: string;
-  date_refreshed?: string;
-  distance?: number;
-  extended_location?: {
-    dma?: string;
-    census_block_id?: string;
-  };
-  link?: string;
+  name?: string;
   location?: {
-    address?: string;
-    locality?: string;
-    region?: string;
-    postcode?: string;
-    country?: string;
     formatted_address?: string;
   };
-  name?: string;
-  placemaker_url?: string;
-  related_places?: Record<string, unknown>;
-  social_media?: {
-    twitter?: string;
-  };
-  store_id?: string;
-  tel?: string;
-  website?: string;
+  categories?: Array<{
+    short_name: string;
+  }>;
 }
