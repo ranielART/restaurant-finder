@@ -2,18 +2,21 @@ import {
   RestaurantJSONCommandInterface,
   RestaurantDetailsInterface,
   FoursquarePlaceSchemaInterface,
-} from "../interfaces/restaurant.interface";
-import fsqDevelopersPlaces from "@api/fsq-developers-places";
+} from "../interfaces/restaurant.interface.js";
+// import fsqDevelopersPlaces from "@api/fsq-developers-places";
 import {
   // filterByPrice,
   // filterByRating,
   mapPlaceToRestaurant,
-} from "../utils/filterRestaurant";
-import { ValidationError } from "../utils/customErrors";
+} from "../utils/filterRestaurant.js";
+import { ValidationError } from "../utils/customErrors.js";
+import axios from "axios";
 
 interface FoursquareError {
-  data?: {
-    message?: string;
+  response?: {
+    data?: {
+      message?: string;
+    };
   };
 }
 
@@ -34,7 +37,7 @@ export const findRestaurants = async (
     throw new Error("FSQ Developers API key is missing");
   }
 
-  fsqDevelopersPlaces.auth(key);
+  // fsqDevelopersPlaces.auth(key);
 
   const { parameters } = restaurantCommand;
 
@@ -42,18 +45,27 @@ export const findRestaurants = async (
     throw new ValidationError("Invalid restaurant search parameters");
   }
 
-  console.log("Restaurant Search parameters:", JSON.stringify(parameters, null, 2));
+  console.log(
+    "Restaurant Search parameters:",
+    JSON.stringify(parameters, null, 2)
+  );
 
   let data;
   try {
-    const response = await fsqDevelopersPlaces.placeSearch({
-      ...parameters,
-      "X-Places-Api-Version": "2025-06-17",
-      fields: "name,location,categories",
-    });
+    const response = await axios.get(
+      "https://places-api.foursquare.com/places/search",
+      {
+        params: parameters,
+        headers: {
+          Authorization: "Bearer " + key,
+          Accept: "application/json",
+          "X-Places-Api-Version": "2025-06-17"
+        },
+      }
+    );
     data = response.data;
   } catch (err) {
-    const errMessage = (err as FoursquareError).data?.message;
+    const errMessage = (err as FoursquareError).response?.data?.message;
     console.error("[ERROR] Error fetching place search:", errMessage);
     throw new Error(
       "Failed to fetch places from Foursquare. Please try again later."

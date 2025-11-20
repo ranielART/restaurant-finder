@@ -1,8 +1,8 @@
 import express, { Response, Request } from "express";
 
 import cors from "cors";
-import restaurantRoutes from "./routes/restaurant.route";
-import { getOnlyRequest, errorHandler, notFoundHandler } from "./middlewares/error.middleware";
+import restaurantRoutes from "./routes/restaurant.route.js";
+import { getOnlyRequest, errorHandler, notFoundHandler } from "./middlewares/error.middleware.js";
 const app = express();
 
 app.use(express.json());

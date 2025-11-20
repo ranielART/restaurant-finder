@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-import { llmConversion } from "../services/llmConversion.service";
-import { findRestaurants } from "../services/restaurant.service";
+// import { llmConversion } from "../services/llmConversion.service.js";
+import { llmConversion } from "../services/llmConversion.service.js";
+import { findRestaurants } from "../services/restaurant.service.js";
 // import { RestaurantJSONCommandInterface } from "../interfaces/restaurant.interface";
 import {
   HTTPSuccessResponse,
   HTTPErrorResponse,
-} from "../utils/responseHandler";
-import { InternalServerError, ValidationError } from "../utils/customErrors";
+} from "../utils/responseHandler.js";
+import { InternalServerError, ValidationError } from "../utils/customErrors.js";
 
 const getRestaurants = async (req: Request, res: Response) => {
   try {

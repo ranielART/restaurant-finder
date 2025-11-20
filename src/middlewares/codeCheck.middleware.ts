@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../interfaces/error.interface";
+import { CustomError } from "../interfaces/error.interface.js";
 export const codeCheck = (req: Request, res: Response, next: NextFunction) => {
   const { code } = req.query;
 

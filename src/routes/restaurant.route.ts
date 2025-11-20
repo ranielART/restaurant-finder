@@ -1,6 +1,6 @@
 import express from 'express';
-import restaurantController from '../controllers/restaurant.controller';
-import { codeCheck } from '../middlewares/codeCheck.middleware';
+import restaurantController from '../controllers/restaurant.controller.js';
+import { codeCheck } from '../middlewares/codeCheck.middleware.js';
 
 const router = express.Router();
 

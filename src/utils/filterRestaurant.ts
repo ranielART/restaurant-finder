@@ -1,7 +1,7 @@
 import {
   RestaurantDetailsInterface,
   FoursquarePlaceSchemaInterface,
-} from "../interfaces/restaurant.interface";
+} from "../interfaces/restaurant.interface.js";
 
 type ComparisonType = "equal" | "above" | "below";
 
