@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
-import { HTTPErrorResponse } from "../utils/responseHandler";
-import { CustomError } from "../interfaces/error.interface";
+import { HTTPErrorResponse } from "../utils/responseHandler.js";
+import { CustomError } from "../interfaces/error.interface.js";
 
 
 

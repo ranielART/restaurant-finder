@@ -1,7 +1,7 @@
-import { RestaurantJSONCommandInterface } from "../interfaces/restaurant.interface";
-import { LLM_CONVERSION_CONSTANTS } from "../constants/llmConversion.constants";
-import openai from "../configs/openai.config";
-import { InternalServerError } from "../utils/customErrors";
+import { RestaurantJSONCommandInterface } from "../interfaces/restaurant.interface.js";
+import { LLM_CONVERSION_CONSTANTS } from "../constants/llmConversion.constants.js";
+import openai from "../configs/openai.config.js";
+import { InternalServerError } from "../utils/customErrors.js";
 
 export const llmConversion = async (
   message: string
